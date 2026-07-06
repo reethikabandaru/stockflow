@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StockFlow - Products</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📦 StockFlow Products</h1>
+
+    <button onclick="loadProducts()">Load Products</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+
+        <tbody id="productTable">
+            <!-- Data will load here -->
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    function loadProducts() {
+        fetch("/api/products/")
+        .then(response => response.json())
+        .then(data => {
+            let table = document.getElementById("productTable");
+            table.innerHTML = "";
+
+            data.forEach(product => {
+                table.innerHTML += `
+                    <tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.sku}</td>
+                        <td>${product.quantity}</td>
+                        <td>${product.selling_price}</td>
+                    </tr>
+                `;
+            });
+        })
+        .catch(error => {
+            alert("Error loading products!");
+            console.log(error);
+        });
+    }
+</script>
+
+</body>
+</html>
